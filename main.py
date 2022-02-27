@@ -1,12 +1,12 @@
-import tkinter
-import random
+import tkinter;
+import random;
 
-root = tkinter.Tk()
-root.title("tinko")
-root.mainloop()
+
       
 def main():
-    print("aa");
+    root = tkinter.Tk();
+    root.title("MIKOTO");
+    root.mainloop();
 
 if __name__ == "__main__" :
     main();
