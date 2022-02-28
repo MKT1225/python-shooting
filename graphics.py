@@ -1,3 +1,9 @@
+from msilib.schema import Font
+from re import X
+from textwrap import fill
+from tkinter import font
+
+
 class Graphics:
     
     def __init__(self, canvas):
@@ -22,6 +28,13 @@ class Graphics:
         self.__nowColor = color;
         self.__nowLineColor = lineColor;
 
-    def fillRect(self,x,y,wight,higth):
-        self.__Canvas.create_rectangle(x, y, x+wight, y+higth, fill = self.getColor(),outline=self.getLineColor());  
+    def fillRect(self,x,y,width,hieght):
+        self.__Canvas.create_rectangle(x, y, x+width, y+hieght, fill = self.getColor(), outline = self.getLineColor());
         
+    def fillOval(self,x,y,width,hieght):
+        self.__Canvas.create_oval(x, y, x+width, y+hieght,fill = self.getColor(), outline = self.getLineColor());
+    
+    def drawText(self ,x,y,string,size):
+        self.__Canvas.create_text(x,y,text=string,font=("",size),fill = self.getColor());
+        
+    
