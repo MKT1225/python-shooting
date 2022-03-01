@@ -1,6 +1,3 @@
-from msilib.schema import Font
-from re import X
-from textwrap import fill
 from tkinter import font
 
 
@@ -32,9 +29,12 @@ class Graphics:
         self.__Canvas.create_rectangle(x, y, x+width, y+hieght, fill = self.getColor(), outline = self.getLineColor());
         
     def fillOval(self,x,y,width,hieght):
-        self.__Canvas.create_oval(x, y, x+width, y+hieght,fill = self.getColor(), outline = self.getLineColor());
+        self.__Canvas.create_oval(x-int(width/2), y-int(hieght/2), width*2, hieght*2,fill = self.getColor(), outline = self.getLineColor());
     
     def drawText(self ,x,y,string,size):
         self.__Canvas.create_text(x,y,text=string,font=("",size),fill = self.getColor());
+    
+    def drawLine(self ,x1,y1,x2,y2):
+        self.__Canvas.create_line(x1,y1,x2,y2,fill=self.getColor());
         
     
