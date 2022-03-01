@@ -7,6 +7,7 @@ global g_gra;
 flg =  mode.GameMode.START; 
 
 def gameLoop(root):
+    
     #TODO:ゲームの処理を書く
     
     #TODO:ループ条件をかく
