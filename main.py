@@ -11,13 +11,15 @@ flg =  mode.GameMode.START;
 
 images = [tkinter.PhotoImage(file="img\Quu.png"),];
 
+
 def gameLoop():
     
     #TODO:ゲームの処理を書く
     gra.drawImage(100,100,images[0]);
     
     
-    # g_gra.clear();
+    gra.clear();
+    
     #TODO:ループ条件をかく
     
     
