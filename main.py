@@ -5,19 +5,19 @@ import gameMode as mode
 # ウィンドウの生成
 Root = tkinter.Tk();
 # グラフィクスオブジェクトの生成
-g_gra = graphics.Graphics(tkinter.Canvas(Root,width=600,height=500,bg="white"));
+gra = graphics.Graphics(tkinter.Canvas(Root,width=600,height=500,bg="white"));
 
 flg =  mode.GameMode.START; 
+
+images = [tkinter.PhotoImage(file="img\Quu.png"),];
 
 def gameLoop():
     
     #TODO:ゲームの処理を書く
-    
-    g_gra.fillRect(10,10,10,10);
-    
+    gra.drawImage(100,100,images[0]);
     
     
-    g_gra.clear();
+    # g_gra.clear();
     #TODO:ループ条件をかく
     
     
