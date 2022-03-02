@@ -40,6 +40,9 @@ class Graphics:
     def drawLine(self ,x1,y1,x2,y2):
         self.__nowSharpId.append(self.__Canvas.create_line(x1,y1,x2,y2,fill=self.getColor()));
         
+    def drawImage(self,x,y,img):
+        self.__nowSharpId.append(self.__Canvas.create_image(x,y,image=img));
+        
     #ループの終わりに必ずこれを実行する
     def clear(self):
         
