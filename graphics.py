@@ -42,13 +42,15 @@ class Graphics:
         
     #ループの終わりに必ずこれを実行する
     def clear(self):
-        for i in range(len(self.__nowShardId)):
-            if(not len(self.__nowSharpId) == 0):
-                self.__Canvas.delete(self.__nowSharpId[i]);
-                self.__nowSharpId.pop(i);
-                i -= 1;
-            else:
-                break;
+        
+        if(len(self.__nowSharpId) > 0):
+            for i in range(len(self.__nowSharpId)):
+                if(len(self.__nowSharpId) > 0):
+                    self.__Canvas.delete(self.__nowSharpId[i]);
+                    self.__nowSharpId.pop(i);
+                    i -= 1;
+                else:
+                    break;
             
         
         
