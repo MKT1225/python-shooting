@@ -43,15 +43,18 @@ class Graphics:
     def drawImage(self,x,y,img):
         self.__nowSharpId.append(self.__Canvas.create_image(x,y,image=img));
         
-    #ループの終わりに必ずこれを実行する
+    #描画のはじめに必ずこれを実行する
     def clear(self):
+        
+        count =0;
         
         if(len(self.__nowSharpId) > 0):
             for i in range(len(self.__nowSharpId)):
                 if(len(self.__nowSharpId) > 0):
+                    i-=count;
                     self.__Canvas.delete(self.__nowSharpId[i]);
                     self.__nowSharpId.pop(i);
-                    i -= 1;
+                    count += 1;
                 else:
                     break;
             
