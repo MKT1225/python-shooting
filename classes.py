@@ -13,6 +13,7 @@ class Plane:
 class Player(Plane):
     def __init__(self, x, y,hp):
         super().__init__(x, y,hp);
+        self.moveSpeed = 10;
 
 class Enemy(Plane):
     def __init__(self, x, y,hp):
