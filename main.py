@@ -2,6 +2,7 @@ import sys
 import tkinter
 import graphics
 import gameMode as mode
+import classes as cl;
 
 # ウィンドウの生成
 Root = tkinter.Tk();
@@ -9,6 +10,8 @@ Root = tkinter.Tk();
 gra = graphics.Graphics(tkinter.Canvas(Root,width=600,height=500,bg="white"));
 
 gameFlg =  mode.GameMode.START; 
+
+player = cl.Player(20,20,10);
 
 images = [tkinter.PhotoImage(file="img\Quu.png"),];
 #           key.A key.D Key.W Key.S Key.K Key.Enter
@@ -49,7 +52,19 @@ def keyReleased(event):
             pushKeys[4]=False;
         case "Return":
             pushKeys[5]=False;
+
+def playerMove():
     
+    global player;
+    
+    if pushKeys[0] and player.x >0:
+        player.x -= player.moveSpeed;
+    if pushKeys[1] and player.x <590:
+        player.x += player.moveSpeed;
+    if pushKeys[2] and player.y >0:
+        player.y -= player.moveSpeed;
+    if pushKeys[3] and player.y <490:
+        player.y += player.moveSpeed;
             
 def gameLoop():
     
@@ -62,13 +77,14 @@ def gameLoop():
         
         case mode.GameMode.START:
             gra.drawText(300,150,"Shooting",100);
-            gra.drawText(300,250,"Push Enter to Play",50);
-            
+            gra.drawText(300,250,"Push Enter to Play",50); 
             if(pushKeys[5]):
                 gameFlg=mode.GameMode.GAME;
                 
         case mode.GameMode.GAME:
-            print();
+            playerMove();
+            gra.setBothColor("blue","cyan")
+            gra.fillRect(player.x,player.y,10,10);
         case mode.GameMode.BOSS:
             print();
         case mode.GameMode.GAMEOVER:
