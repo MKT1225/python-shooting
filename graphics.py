@@ -30,9 +30,8 @@ class Graphics:
 
     def fillRect(self,x,y,width,hieght):
         self.__nowSharpId.append(self.__Canvas.create_rectangle(x, y, x+width, y+hieght, fill = self.getColor(), outline = self.getLineColor()));
-        
-    def fillOval(self,x,y,width,hieght):
-        self.__nowSharpId.append(self.__Canvas.create_oval(x-int(width/2), y-int(hieght/2), width*2, hieght*2,fill = self.getColor(), outline = self.getLineColor()));
+    def fillOval(self,x,y,radiusw,radiush):
+        self.__nowSharpId.append(self.__Canvas.create_oval(x-radiusw,y-radiush,x+radiusw,y+radiush,fill = self.getColor(), outline = self.getLineColor()));
     
     def drawText(self ,x,y,string,size):
         self.__nowSharpId.append(self.__Canvas.create_text(x,y,text=string,font=("",size),fill = self.getColor()));
