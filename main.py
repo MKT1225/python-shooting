@@ -1,4 +1,5 @@
 import sys
+import random;
 import tkinter
 import graphics
 import gameMode as mode
@@ -12,6 +13,8 @@ gra = graphics.Graphics(tkinter.Canvas(Root,width=600,height=500,bg="white"));
 gameFlg =  mode.GameMode.START; 
 
 player = cl.Player(20,20,10);
+
+enemys = [];
 
 images = [tkinter.PhotoImage(file="img\Quu.png"),];
 #           key.A key.D Key.W Key.S Key.K Key.Enter
@@ -53,9 +56,12 @@ def keyReleased(event):
         case "Return":
             pushKeys[5]=False;
 
-def playerMove():
+def playerAction():
     
     global player;
+    
+    if player.reloadTime>0:
+        player.reloadTime -=1;
     
     if pushKeys[0] and player.x >0:
         player.x -= player.moveSpeed;
@@ -65,14 +71,38 @@ def playerMove():
         player.y -= player.moveSpeed;
     if pushKeys[3] and player.y <490:
         player.y += player.moveSpeed;
+    if pushKeys[4] and player.reloadTime == 0:
+        player.addBullet();
+        player.reloadTime = 5;
+    if pushKeys[4] and pushKeys[5]:
+        player.moveSpeed += 1;
+        
+def drawBullet():
+    
+    global gra;
+    
+    gra.setBothColor("blue","blue");
+    
+    for i in range(len(player.bullets)):
+        gra.fillOval(player.bullets[i].x,player.bullets[i].y,radiusw = 3,radiush = 3);
+    
+    gra.setBothColor("red","red");
+    
+    for i in range(len(enemys)):
+        for j in range(len(enemys[i].bullets)):
+            gra.fillOval(enemys[i].bullets[j].x,enemys[i].bullets[j].y,radiusw = 3,radiush = 3);
+        
+    
             
 def gameLoop():
     
     global gameFlg;
+    global enemys;
     
     gra.clear();
     
     #TODO:ゲームの処理を書く
+    
     match(gameFlg):
         
         case mode.GameMode.START:
@@ -82,9 +112,44 @@ def gameLoop():
                 gameFlg=mode.GameMode.GAME;
                 
         case mode.GameMode.GAME:
-            playerMove();
+            playerAction();
             gra.setBothColor("blue","cyan")
             gra.fillRect(player.x,player.y,10,10);
+            
+            if len(enemys)<8 :
+                enemys.append(cl.Enemy(random.randint(550,600),random.randint(5,490),5));
+            
+            
+            count =0;
+            for i in range(len(enemys)):
+                
+                i -= count;
+                
+                gra.setBothColor("red","pink");
+                gra.fillRect(enemys[i].x,enemys[i].y,10,10);
+                enemys[i].move();
+                enemys[i].moveBullet();
+        
+                if enemys[i].checkHit(player):
+                    gameFlg = mode.GameMode.GAMEOVER;
+                    enemys = [];
+                    break;
+                if enemys[i].checkHitBullet(player):
+                    gameFlg = mode.GameMode.GAMEOVER;
+                    enemys=[];
+                    break;
+                if player.checkHitBullet(enemys[i]):
+                    enemys.pop(i);
+                    count += 1;
+                elif enemys[i].checkIsOut():
+                    enemys.pop(i);
+                    count += 1;
+                    
+                    
+            player.moveBullet();
+            drawBullet();
+            
+            
         case mode.GameMode.BOSS:
             print();
         case mode.GameMode.GAMEOVER:
@@ -110,6 +175,8 @@ def main():
     
     Root.bind("<KeyPress>", keyPressed);
     Root.bind("<KeyRelease>", keyReleased)
+    
+    Root.resizable(False,False);
     
     sys.setrecursionlimit(2000);
 
