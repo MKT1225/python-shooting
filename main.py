@@ -37,6 +37,10 @@ def keyPressed(event):
             pushKeys[4]=True;
         case "Return":
             pushKeys[5]=True;
+        
+        case "e":
+            pushKeys[1] = True;
+            pushKeys[2] = True;
             
 def keyReleased(event):
     
@@ -55,6 +59,10 @@ def keyReleased(event):
             pushKeys[4]=False;
         case "Return":
             pushKeys[5]=False;
+        
+        case "e":
+            pushKeys[1] = False;
+            pushKeys[2] = False;
 
 def playerAction():
     
@@ -98,6 +106,7 @@ def gameLoop():
     
     global gameFlg;
     global enemys;
+    global player;
     
     gra.clear();
     
@@ -112,6 +121,7 @@ def gameLoop():
                 gameFlg=mode.GameMode.GAME;
                 
         case mode.GameMode.GAME:
+            print(len(enemys));
             playerAction();
             gra.setBothColor("blue","cyan")
             gra.fillRect(player.x,player.y,10,10);
@@ -153,7 +163,13 @@ def gameLoop():
         case mode.GameMode.BOSS:
             print();
         case mode.GameMode.GAMEOVER:
-            print();
+            gra.setColor("red");
+            gra.drawText(300,150,"GameOver",100);
+            gra.setColor("black");
+            gra.drawText(300,250,"Push Enter to Play again",40); 
+            if(pushKeys[5]):
+                gameFlg=mode.GameMode.START;
+                player = cl.Player(20,20,10)
         case mode.GameMode.CLEAR:
             print();
         case __:
