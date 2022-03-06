@@ -174,9 +174,7 @@ def gameLoop():
             print();
         case __:
             print("ERROR");
-
-    #TODO:ループ条件をかく
-    
+   
     Root.after(50,gameLoop);
   
 
