@@ -6,3 +6,4 @@ class GameMode(Enum):
     BOSS     = 2;
     CLEAR    = 3;
     GAMEOVER = 4;
+    LOAD     = 5;
