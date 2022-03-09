@@ -61,12 +61,12 @@ class Player(Plane):
                 self.barrageBullet.pop(i);
                 count += 1;
             else:   
-                if self.barrageBullet[i].direction == 1:
-                    self.barrageBullet[i].x += int(math.cos(math.radians(315))*10);
-                    self.barrageBullet[i].y += int(math.sin(math.radians(315))*10);
+                if self.barrageBullet[i].direction > 0 :
+                    self.barrageBullet[i].x += int(math.cos(math.radians(360-self.barrageBullet[i].direction*15))*10);
+                    self.barrageBullet[i].y += int(math.sin(math.radians(360-self.barrageBullet[i].direction*15))*10);
                 else:
-                    self.barrageBullet[i].x += int(math.cos(math.radians(45))*10);
-                    self.barrageBullet[i].y += int(math.sin(math.radians(45))*10);    
+                    self.barrageBullet[i].x += int(math.cos(math.radians(-self.barrageBullet[i].direction*15))*10);
+                    self.barrageBullet[i].y += int(math.sin(math.radians(-self.barrageBullet[i].direction*15))*10);    
                 
     def addBullet(self):
         
@@ -75,6 +75,23 @@ class Player(Plane):
         if self.level > 10 :
             self.barrageBullet.append(Bullet(self.x+10,self.y,1));
             self.barrageBullet.append(Bullet(self.x+10,self.y+10,-1));
+            if self.level > 15:
+                self.barrageBullet.append(Bullet(self.x+10,self.y,2));
+                self.barrageBullet.append(Bullet(self.x+10,self.y+10,-2));
+                if self.level > 20:
+                    self.barrageBullet.append(Bullet(self.x+10,self.y,3));
+                    self.barrageBullet.append(Bullet(self.x+10,self.y+10,-3));
+                    if self.level > 25:
+                        self.barrageBullet.append(Bullet(self.x+10,self.y,4));
+                        self.barrageBullet.append(Bullet(self.x+10,self.y+10,-4));
+                        if self.level > 30:
+                            self.barrageBullet.append(Bullet(self.x+10,self.y,5));
+                            self.barrageBullet.append(Bullet(self.x+10,self.y+10,-5));
+                    
+                    
+                    
+                
+            
     def checkHitBullet(self, object):
         if super().checkHitBullet(object):
             return True;
