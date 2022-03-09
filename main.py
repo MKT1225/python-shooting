@@ -1,3 +1,4 @@
+
 import sys
 import random;
 import tkinter
@@ -19,6 +20,8 @@ enemys = [];
 images = [tkinter.PhotoImage(file="img\Quu.png"),];
 #           key.A key.D Key.W Key.S Key.K Key.Enter
 pushKeys = [False,False,False,False,False,False];
+
+orbs = [];
 
 gameScore = 0;
 
@@ -65,6 +68,9 @@ def keyReleased(event):
         case "e":
             pushKeys[1] = False;
             pushKeys[2] = False;
+        case "o":
+            player.level += 1;
+        
 
 def playerAction():
     
@@ -84,8 +90,6 @@ def playerAction():
     if pushKeys[4] and player.reloadTime == 0:
         player.addBullet();
         player.reloadTime = 5;
-    if pushKeys[4] and pushKeys[5]:
-        player.moveSpeed += 1;
         
 def drawBullet():
     
@@ -96,10 +100,22 @@ def drawBullet():
     for i in range(len(player.bullets)):
         gra.fillOval(player.bullets[i].x,player.bullets[i].y,radiusw = 3,radiush = 3);
     
+    for i in range(len(player.barrageBullet)):
+        gra.fillOval(player.barrageBullet[i].x,player.barrageBullet[i].y,radiusw = 3,radiush = 3);
+    
     for i in range(len(enemys)):
         gra.setColor(enemys[i].color);
         for j in range(len(enemys[i].bullets)):
             gra.fillOval(enemys[i].bullets[j].x,enemys[i].bullets[j].y,radiusw = enemys[i].size//3,radiush = enemys[i].size//3);
+            
+def drawOrb():
+    
+    global gra;
+    
+    gra.setColor("yellow");
+    
+    for i in range(len(orbs)):
+        gra.fillOval(orbs[i].x,orbs[i].y,4,4);
         
     
             
@@ -109,6 +125,7 @@ def gameLoop():
     global enemys;
     global player;
     global gameScore;
+    global orbs;
     
     gra.clear();
     
@@ -150,26 +167,39 @@ def gameLoop():
                     enemys = [];
                     break;
                 if enemys[i].checkHitBullet(player):
-                    gameFlg = mode.GameMode.GAMEOVER;
-                    enemys=[];
+                    player.level -= 1;
+                    if player.level <1:
+                        gameFlg = mode.GameMode.GAMEOVER;
+                        enemys=[];
                     break;
                 if player.checkHitBullet(enemys[i]):
-                    enemys[i].hp -= 1;
+                    enemys[i].hp -= player.level;
                     if enemys[i].hp < 1:
                         if enemys[i].color == "green":
                             gameScore += 40;
                         gameScore += 10;
+                        if enemys[i].dropExp():
+                            orbs.append(cl.expOrb(enemys[i].x,enemys[i].y));
                         enemys.pop(i);
                         count += 1;
                 elif enemys[i].checkIsOut():
                     enemys.pop(i);
                     count += 1;
-                    
-                    
+                for j in range(len(orbs)):
+                    if player.checkHit(orbs[j]):
+                        player.level += 1;
+                        orbs.pop(j);
+                        break;
+                        
             player.moveBullet();
             drawBullet();
+            drawOrb();
             gra.setColor("black");
             gra.drawText(550,10,"Score:"+str(gameScore),10);
+            gra.drawText(25,10,"Level:"+str(player.level),10);
+            if pushKeys[5]:
+                gra.drawText(80,490,"player:"+str(player.x)+","+str(player.y)+" bulletsNum:"+str(len(player.bullets)+len(player.barrageBullet)),10);
+                gra.drawText(245,490,"       movespeed:"+str(player.moveSpeed)+" reloadTime:"+str(player.reloadTime)+" orbs:"+str(len(orbs)),10);
             
         case mode.GameMode.BOSS:
             print();
@@ -180,6 +210,7 @@ def gameLoop():
             gra.drawText(300,250,"Push Enter to Play again",40); 
             if(pushKeys[5]):
                 gameFlg=mode.GameMode.START;
+                orbs = [];
                 gameScore =0;
                 player = cl.Player(20,20);
                 
