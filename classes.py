@@ -1,16 +1,24 @@
-import random;
+import random
+import math
+class Bullet:
+    def __init__(self,x,y,direction):
+        self.x = x;
+        self.y = y;
+        # 方向を表す　まっすぐなら0、上方向なら1、した方向なら-1
+        self.direction = direction;
+        
+
 class Plane:
     
-    def __init__(self,x,y,hp,color):
+    def __init__(self,x,y,color):
         self.bullets = [];
         self.x = x;
         self.y = y;
-        self.hp=hp;
         self.reloadTime = 0;
         self.color = color;
         
     def addBullet(self):
-        self.bullets.append(Bullet(self.x+10,self.y+5));
+        self.bullets.append(Bullet(self.x+10,self.y+5,0));
     
     def checkHit(self,object):
         if (self.x - object.x)**2+(self.y-object.y)**2 <200 :
@@ -27,8 +35,10 @@ class Plane:
             
 class Player(Plane):
     def __init__(self, x, y):
-        super().__init__(x, y,10,"blue");
+        super().__init__(x, y,"blue");
         self.moveSpeed = 10;
+        self.level = 1;
+        self.barrageBullet = [];
     
     def moveBullet(self):
         count =0;
@@ -40,15 +50,47 @@ class Player(Plane):
                 self.bullets[i].x += 10;
             else:
                 self.bullets.pop(i);
-                count += 1; 
+                count += 1;       
+        
+        count = 0;
+        for i in range(len(self.barrageBullet)):
+            
+            i -= count;
+            
+            if self.barrageBullet[i].x > 600 or self.barrageBullet[i].y < 0 or self.barrageBullet[i].y>500:
+                self.barrageBullet.pop(i);
+                count += 1;
+            else:   
+                if self.barrageBullet[i].direction == 1:
+                    self.barrageBullet[i].x += int(math.cos(math.radians(315))*10);
+                    self.barrageBullet[i].y += int(math.sin(math.radians(315))*10);
+                else:
+                    self.barrageBullet[i].x += int(math.cos(math.radians(45))*10);
+                    self.barrageBullet[i].y += int(math.sin(math.radians(45))*10);    
                 
-    
-    
+    def addBullet(self):
+        
+        super().addBullet();
+        
+        if self.level > 10 :
+            self.barrageBullet.append(Bullet(self.x+10,self.y,1));
+            self.barrageBullet.append(Bullet(self.x+10,self.y+10,-1));
+    def checkHitBullet(self, object):
+        if super().checkHitBullet(object):
+            return True;
+        for i in range(len(self.barrageBullet)):
+            if object.checkHit(self.barrageBullet[i]):
+                self.barrageBullet.pop(i);
+                return True;
+        return False;
+        
+
 
 class Enemy(Plane):
     
     def __init__(self, x, y):
-        super().__init__(x, y,5,"red");
+        super().__init__(x, y,"red");
+        self.hp=5;
         self.size = 10;
     
     def action(self):
@@ -84,6 +126,15 @@ class Enemy(Plane):
             return True;
         return False;
     
+    def dropExp(self):
+        rand = random.randint(1,10);
+        if rand == 2 :
+            return True;
+        elif self.color == "green" and rand >8:
+            return True;
+            
+        return False;
+    
             
 class miniBoss(Enemy):
     def __init__(self, x, y):
@@ -99,12 +150,10 @@ class Boss(Enemy):
         self.color = "black";
         self.size = 30;
     
-class Bullet:
+class expOrb:
     def __init__(self,x,y):
         self.x = x;
-        self.y = y;
-        
-        
+        self.y = y;   
     
 
 
