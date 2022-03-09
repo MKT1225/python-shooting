@@ -17,7 +17,7 @@ player = cl.Player(20,20);
 
 enemys = [];
 
-images = [tkinter.PhotoImage(file="img\Quu.png"),];
+images = [tkinter.PhotoImage(file="img\Quu.png"),tkinter.PhotoImage(file="img\Sapphire.png")];
 #           key.A key.D Key.W Key.S Key.K Key.Enter
 pushKeys = [False,False,False,False,False,False];
 
@@ -135,7 +135,8 @@ def gameLoop():
         
         case mode.GameMode.START:
             gra.drawText(300,150,"Shooting",100);
-            gra.drawText(300,250,"Push Enter to Play",50); 
+            gra.drawText(300,250,"Push Enter to Play",50);
+            gra.drawImage(550,450,images[1]); 
             if(pushKeys[5]):
                 gameFlg=mode.GameMode.GAME;
                 
@@ -197,10 +198,14 @@ def gameLoop():
             gra.setColor("black");
             gra.drawText(550,10,"Score:"+str(gameScore),10);
             gra.drawText(25,10,"Level:"+str(player.level),10);
+            if gameScore > 3000:
+                gameFlg = mode.GameMode.LOAD;
             if pushKeys[5]:
                 gra.drawText(80,490,"player:"+str(player.x)+","+str(player.y)+" bulletsNum:"+str(len(player.bullets)+len(player.barrageBullet)),10);
                 gra.drawText(245,490,"       movespeed:"+str(player.moveSpeed)+" reloadTime:"+str(player.reloadTime)+" orbs:"+str(len(orbs)),10);
-            
+                
+        case mode.GameMode.LOAD:
+            print("");
         case mode.GameMode.BOSS:
             print();
         case mode.GameMode.GAMEOVER:
