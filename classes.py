@@ -66,7 +66,8 @@ class Player(Plane):
                     self.barrageBullet[i].y += int(math.sin(math.radians(360-self.barrageBullet[i].direction*15))*10);
                 else:
                     self.barrageBullet[i].x += int(math.cos(math.radians(-self.barrageBullet[i].direction*15))*10);
-                    self.barrageBullet[i].y += int(math.sin(math.radians(-self.barrageBullet[i].direction*15))*10);    
+                    self.barrageBullet[i].y += int(math.sin(math.radians(-self.barrageBullet[i].direction*15))*10);
+                     
                 
     def addBullet(self):
         
@@ -159,14 +160,89 @@ class miniBoss(Enemy):
         self.hp = 15;
         self.color = "green";
         self.size = 15;
-        
+
+class Cannon(Enemy):
+    def __init__(self, x, y):
+        super().__init__(x, y);
+        self.hp = 5000;
+        self.color = "gray21";
+        self.size = 10;
+        self.nowRad = 1;
+    def action(self):
+        if self.reloadTime == 0:
+            self.addBullet();
+            self.reloadTime = 1;
+        else:
+            self.reloadTime -= 1;
+        self.moveBullet();
+    def addBullet(self):
+        self.bullets.append(Bullet(self.x-10,self.y+5,self.nowRad));
+        self.nowRad *= -1;
+        if self.nowRad > 0:
+            self.nowRad += 1;
+        if self.nowRad < -6:
+            self.nowRad = 1;
+    def moveBullet(self):
+        count = 0;
+        for i in range(len(self.bullets)):
+            
+            i -= count;
+            
+            if self.bullets[i].x < 0 or self.bullets[i].x > 600 or self.bullets[i].y < 0 or self.bullets[i].y>500:
+                self.bullets.pop(i);
+                count += 1;
+            else:   
+                if self.bullets[i].direction > 0 :
+                    # print(int(math.cos(math.radians(-180+self.bullets[i].direction*15))*10));
+                    self.bullets[i].x += int(math.cos(math.radians(180+self.bullets[i].direction*15))*10);
+                    self.bullets[i].y += int(math.sin(math.radians(180+self.bullets[i].direction*15))*10);
+                else:
+                    self.bullets[i].x += int(math.cos(math.radians(-180+self.bullets[i].direction*15))*10);
+                    self.bullets[i].y += int(math.sin(math.radians(-180+self.bullets[i].direction*15))*10);
+
 class Boss(Enemy):    
     def __init__(self, x, y):
         super().__init__(x, y);
-        self.hp = 50;
-        self.color = "black";
-        self.size = 30;
-    
+        self.hp = 10000;
+        self.color = "red";
+        self.size = 10;
+        self.cannnons = [Cannon(x-110,y-75),Cannon(x-110,y+65)];
+        self.direction = 1;
+    def action(self):
+        if self.reloadTime == 0:
+            self.addBullet();
+            self.reloadTime = 5;
+        else:
+            self.reloadTime -= 1;
+            self.move();
+        self.moveBullet();
+    def move(self):
+        if self.y < 100 or self.y > 400:
+            self.direction *= -1;
+        self.y += 3*self.direction;
+        for i in range(len(self.cannnons)):
+            self.cannnons[i]. y += 3*self.direction;
+        
+    def addBullet(self):
+        for i in range(6):
+            self.bullets.append(Bullet(self.x+10,self.y,1+i));
+            self.bullets.append(Bullet(self.x+10,self.y+10,-(1+i)));    
+    def moveBullet(self):
+        count = 0;
+        for i in range(len(self.bullets)):
+            
+            i -= count;
+            
+            if self.bullets[i].x > 600 or self.bullets[i].y < 0 or self.bullets[i].y>500:
+                self.bullets.pop(i);
+                count += 1;
+            else:   
+                if self.bullets[i].direction > 0 :
+                    self.bullets[i].x += int(math.cos(math.radians(180+self.bullets[i].direction*15))*10);
+                    self.bullets[i].y += int(math.sin(math.radians(180+self.bullets[i].direction*15))*10);
+                else:
+                    self.bullets[i].x += int(math.cos(math.radians(-180+self.bullets[i].direction*15))*10);
+                    self.bullets[i].y += int(math.sin(math.radians(-180+self.bullets[i].direction*15))*10);
 class expOrb:
     def __init__(self,x,y):
         self.x = x;
