@@ -13,7 +13,7 @@ W move up
 S move down
 K shot!
 
-Game:
+GAME:
 
 スコアが2000以上になるとBOSSステージに移行。
 
