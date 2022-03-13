@@ -148,7 +148,7 @@ class Enemy(Plane):
         rand = random.randint(1,10);
         if rand == 2 :
             return True;
-        elif self.color == "green" and rand >8:
+        elif self.color == "green" and rand >7:
             return True;
             
         return False;
