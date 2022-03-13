@@ -192,7 +192,6 @@ def gameLoop():
     
     gra.clear();
     
-    #TODO:ゲームの処理を書く
     
     match(gameFlg):
         
