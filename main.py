@@ -32,6 +32,8 @@ gameScore = 0;
 startTime=0;
 endTime =0;
 
+isOnceSetSecondLoodTime = True;
+
 def keyPressed(event):
     
     pushKeyCode = event.keysym
@@ -189,6 +191,7 @@ def gameLoop():
     global startTime;
     global endTime;
     global boss;
+    global isOnceSetSecondLoodTime;
     
     gra.clear();
     
@@ -275,10 +278,13 @@ def gameLoop():
             gra.fillRect(player.x,player.y,10,10);
             if player.x == 100 and player.y == 250:
                 endTime = time.time();
-                if endTime - startTime > 10:
+                if endTime - startTime > 10 or not isOnceSetSecondLoodTime:
                     gra.setColor("red");
                     gra.drawText(300,150,"WARNING",100);
-                    if endTime - startTime > 15:
+                    if isOnceSetSecondLoodTime:
+                        startTime = time.time();
+                        isOnceSetSecondLoodTime = False;
+                    if endTime - startTime > 5:
                         player.level *= 3;
                         gameFlg = mode.GameMode.BOSS;
             else:
