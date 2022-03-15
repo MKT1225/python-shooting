@@ -39,6 +39,7 @@ class Player(Plane):
         self.moveSpeed = 10;
         self.level = 1;
         self.barrageBullet = [];
+        self.islaserMode = False;
     
     def moveBullet(self):
         count =0;
@@ -73,7 +74,7 @@ class Player(Plane):
         
         super().addBullet();
         
-        if self.level > 10 :
+        if self.level > 10 and not self.islaserMode:
             self.barrageBullet.append(Bullet(self.x+10,self.y,1));
             self.barrageBullet.append(Bullet(self.x+10,self.y+10,-1));
             if self.level > 15:
@@ -87,8 +88,7 @@ class Player(Plane):
                         self.barrageBullet.append(Bullet(self.x+10,self.y+10,-4));
                         if self.level > 30:
                             self.barrageBullet.append(Bullet(self.x+10,self.y,5));
-                            self.barrageBullet.append(Bullet(self.x+10,self.y+10,-5));
-                    
+                            self.barrageBullet.append(Bullet(self.x+10,self.y+10,-5));         
                     
                     
                 
