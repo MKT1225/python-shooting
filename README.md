@@ -12,6 +12,7 @@ D move right
 W move up
 S move down
 K shot!
+C chenge weapon [normal <-> laser] (*Level>15)
 
 GAME:
 
