@@ -20,8 +20,8 @@ enemys = [];
 boss = cl.Boss(450,250);
 
 images = [tkinter.PhotoImage(file="img\Quu.png"),tkinter.PhotoImage(file="img\Sapphire.png")];
-#           key.A key.D Key.W Key.S Key.K Key.Enter Key.C
-pushKeys = [False,False,False,False,False,False,False];
+#           key.A key.D Key.W Key.S Key.K Key.Enter 
+pushKeys = [False,False,False,False,False,False];
 
 orbs = [];
 
@@ -48,10 +48,7 @@ def keyPressed(event):
         case "k":
             pushKeys[4]=True;
         case "Return":
-            pushKeys[5]=True;
-        case "c":
-            pushKeys[6]=True;
-        
+            pushKeys[5]=True;        
         case "e":
             pushKeys[1] = True;
             pushKeys[2] = True;
@@ -74,8 +71,11 @@ def keyReleased(event):
         case "Return":
             pushKeys[5]=False;
         case "c":
-            pushKeys[6]=False;
-        
+            if player.level > 15:
+                if player.islaserMode:
+                    player.islaserMode = False;
+                else:
+                    player.islaserMode = True;
         
         case "e":
             pushKeys[1] = False;
@@ -104,11 +104,7 @@ def playerAction():
         player.reloadTime = 5;
         if player.islaserMode:
             player.reloadTime = 0;
-    if pushKeys[6] and player.level > 15:
-        if player.islaserMode:
-            player.islaserMode = False;
-        else:
-            player.islaserMode = True;
+    
         
 
         
@@ -415,7 +411,7 @@ def main():
     
     Root.resizable(False,False);
     
-    sys.setrecursionlimit(2000);
+    sys.setrecursionlimit(1000);
 
     Root.after(50,gameLoop());
     
