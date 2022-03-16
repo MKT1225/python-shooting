@@ -399,7 +399,7 @@ def gameLoop():
         case __:
             print("ERROR");
    
-    Root.after(50,gameLoop);
+    Root.after(60,gameLoop);
   
 
 #main関数です。
