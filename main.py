@@ -1,7 +1,6 @@
 import sys
 import random;
 import tkinter
-from turtle import back
 import graphics
 import gameMode as mode
 import classes as cl;
