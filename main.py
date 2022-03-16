@@ -347,7 +347,7 @@ def gameLoop():
                 i -= count;
                 if (player.bullets[i].x> boss.x -100 and player.bullets[i].x < boss.x +100 and player.bullets[i].y > boss.y-100 and player.bullets[i].y < boss.y-40) or (player.bullets[i].x  > boss.x and player.bullets[i].x < boss.x +100 and player.bullets[i].y > boss.y-40 and player.bullets[i].y < boss.y+40) or (player.bullets[i].x > boss.x -100 and player.bullets[i].x < boss.x +100 and player.bullets[i].y > boss.y+40 and player.bullets[i].y < boss.y+100):
                     player.bullets.pop(i);
-                    count +=1;back
+                    count +=1;
             count = 0;
             for i in range(len(player.barrageBullet)):
                 """
